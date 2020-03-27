@@ -3,17 +3,32 @@ package main
 import (
 	"fmt"
 	"net"
-	"strconv"
+	"os"
 	"time"
+
+	"github.com/akamensky/argparse"
 )
 
 func main() {
-	fmt.Println("scanning ports")
-	fmt.Println("results: %t\n", isPortOpen("tcp", "185.189.112.194", 8002))
+	parser := argparse.NewParser("Port scanner", "Scans ports")
+	ip := parser.String("i", "ip", &argparse.Options{Required: true, Help: "The ip that you like to scan."})
+	port := parser.String("p", "port", &argparse.Options{Required: true, Help: "The port that you like to scan."})
+
+	err := parser.Parse(os.Args)
+	if err != nil {
+		fmt.Print(parser.Usage(err))
+		return
+	}
+	scanAPort(*ip, *port)
 }
 
-func isPortOpen(protocol, hostName string, port int) bool {
-	address := hostName + ":" + strconv.Itoa(port)
+func scanAPort(ip, port string) {
+	fmt.Println("Scanning port")
+	fmt.Println("Results%t\n", isPortOpen("tcp", ip, port))
+}
+
+func isPortOpen(protocol, hostName, port string) bool {
+	address := hostName + ":" + port
 	conn, err := net.DialTimeout(protocol, address, 10*time.Second)
 	if err != nil {
 		return false
