@@ -2,37 +2,27 @@ package main
 
 import (
 	"fmt"
-	"net"
 	"os"
-	"time"
 
+	ps "./portscanner"
 	"github.com/akamensky/argparse"
 )
 
+var protocol string = "tcp"
+
 func main() {
 	parser := argparse.NewParser("Port scanner", "Scans ports")
-	ip := parser.String("i", "ip", &argparse.Options{Required: true, Help: "The ip that you like to scan."})
-	port := parser.String("p", "port", &argparse.Options{Required: true, Help: "The port that you like to scan."})
+	ip := parser.String("i", "ip", &argparse.Options{Required: true, Help: "specifies an ip that you like to scan. \n must be a valid ip"})
+	port := parser.String("p", "port", &argparse.Options{Required: false, Help: "specifies a port that you like to scan.\n must be a number between '0' and '65535'"})
+	sProtocol := parser.String("r", "protocol", &argparse.Options{Required: false, Help: "specifies the protocol. \n must be either 'tcp' or 'udp' "})
 
 	err := parser.Parse(os.Args)
 	if err != nil {
 		fmt.Print(parser.Usage(err))
 		return
 	}
-	scanAPort(*ip, *port)
-}
-
-func scanAPort(ip, port string) {
-	fmt.Println("Scanning port")
-	fmt.Println("Results%t\n", isPortOpen("tcp", ip, port))
-}
-
-func isPortOpen(protocol, hostName, port string) bool {
-	address := hostName + ":" + port
-	conn, err := net.DialTimeout(protocol, address, 10*time.Second)
-	if err != nil {
-		return false
+	if *sProtocol != "" {
+		protocol = *sProtocol
 	}
-	defer conn.Close()
-	return true
+	ps.ScanAPort(*ip, *port, protocol)
 }
