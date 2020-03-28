@@ -63,4 +63,4 @@ Port:902   State:Open   Protocol:tcp
 ####Command
 `$ ./port_scanner -i 127.0.0.1 -c true -d 15 -l udp
 `
-##### runs the firts example with a 15 seconde connection duration and using udp protocol.
+##### runs the first example with a 15 seconde connection duration and using udp protocol.
