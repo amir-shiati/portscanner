@@ -23,7 +23,7 @@ Port:80   State:Open   Protocol:tcp
 ```
 
 # Arguments
-##### You can do much more here is a list of command that you can use:
+##### You can do much more here is a list of arguments that you can use:
 | Short form of argument (-)  | Long form of argument (- -)   |  Description|
 | ------------ | ------------ | ------------ |
 | i   |  ip |***Required*** specifies an ip that you like to scan. must be a valid ip
