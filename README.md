@@ -64,3 +64,6 @@ Port:902   State:Open   Protocol:tcp
 `$ ./port_scanner -i 127.0.0.1 -c true -d 15 -l udp
 `
 ##### runs the first example with a 15 seconde connection duration and using udp protocol.
+
+###Notice
+##### I'm fairly new to the golang world so the code is probably not so well written or efficient!!!
