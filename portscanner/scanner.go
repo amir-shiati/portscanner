@@ -24,7 +24,7 @@ func ScanAPort(ip, port, protocol string, dDuration int) {
 		return
 	}
 
-	fmt.Println("Scanning port")
+	fmt.Println("Scanning port...")
 	result := isPortOpen(protocol, ip, helpers.StringToInt(port), dDuration)
 	fmt.Println("Results:")
 	writeToConsole(result)
@@ -39,17 +39,23 @@ func ScanRange(from, to int, ip, port, protocol string, dDuration int) {
 	if !areInputsValid(ip, port, protocol, dDuration) {
 		return
 	}
-	fmt.Println("Scanning ports")
+	fmt.Println("Scanning ports...")
 	results := rangeScan(from, to, ip, port, protocol, dDuration)
 
 	sort.Slice(results, func(i, j int) bool {
 		return results[i].Port < results[j].Port
 	})
 
+	counter := 0
 	for _, result := range results {
 		if result.State == "Open" {
+			counter++
 			writeToConsole(result)
 		}
+	}
+
+	if counter == 0 {
+		fmt.Println("None of the ports were open!")
 	}
 }
 

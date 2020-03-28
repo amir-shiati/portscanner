@@ -17,8 +17,8 @@ var rangeScan bool = false
 var duration int = 10
 
 func main() {
-	parser := argparse.NewParser("Port scanner", "Scans ports")
-	ip := parser.String("i", "ip", &argparse.Options{Required: true, Help: "\n specifies an ip that you like to scan. \n must be a valid ip"})
+	parser := argparse.NewParser("Port scanner", "")
+	ip := parser.String("i", "ip", &argparse.Options{Required: true, Help: "\n *Required* \n specifies an ip that you like to scan. \n must be a valid ip"})
 	port := parser.String("p", "port", &argparse.Options{Required: false, Help: "\n specifies a port that you like to scan.\n must be a number between '0' and '65535'"})
 	sProtocol := parser.String("l", "protocol", &argparse.Options{Required: false, Help: "\n specifies the protocol. \n must be either 'tcp' or 'udp' \n default value is 'tcp'"})
 	fCommon := parser.String("c", "common", &argparse.Options{Required: false, Help: "\n if 'true' scans common ports: '0' to '1024' \n default value is 'false' "})
@@ -63,7 +63,10 @@ func toDo(ip, port, dProtocol string, dCommon, dRangeScan bool, dDuration int) {
 		from := readNum("Enter the firts port number")
 		to := readNum("Enter the seconde port number")
 		ps.ScanRange(from, to, ip, port, protocol, duration)
+		return
 	}
+
+	fmt.Println("Wronge arguments! use --help for more information.")
 }
 
 func readNum(message string) int {
