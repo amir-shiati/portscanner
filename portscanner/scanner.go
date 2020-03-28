@@ -32,6 +32,14 @@ func ScanAPort(ip, port, protocol string, dDuration int) {
 
 //ScanRange : scans a range of ports
 func ScanRange(from, to int, ip, port, protocol string, dDuration int) {
+	if !helpers.IsRangeValid(from, to) {
+		fmt.Println("Ranges are not valid! use --help for more information.")
+		return
+	}
+	if !areInputsValid(ip, port, protocol, dDuration) {
+		return
+	}
+	fmt.Println("Scanning ports")
 	results := rangeScan(from, to, ip, port, protocol, dDuration)
 
 	sort.Slice(results, func(i, j int) bool {
@@ -52,14 +60,6 @@ func writeToConsole(result Result) {
 }
 
 func rangeScan(from, to int, ip, port, protocol string, dDuration int) []Result {
-	if !helpers.IsRangeValid(from, to) {
-		fmt.Println("Ranges are not valid! use --help for more information.")
-		return nil
-	}
-	if !areInputsValid(ip, port, protocol, dDuration) {
-		return nil
-	}
-
 	var results []Result
 	var waitgroup sync.WaitGroup
 	for i := from; i <= to; i++ {
