@@ -7,7 +7,7 @@ import (
 
 //IsPortValid : checks if a port is valid or not
 func IsPortValid(port int) bool {
-	return port > 0 && port < 65535
+	return port >= 0 && port <= 65535
 }
 
 //IsIPValid : checks if a ip is valid or not.
